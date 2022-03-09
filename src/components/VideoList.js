@@ -1,12 +1,13 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import VideoItem from './VideoItem';
 import { selectVideo } from '../actions';
 
-const VideoList = ({ videos, selectVideo }) => {
+const VideoList = ({ videos }) => {
+  const dispatch = useDispatch();
   const onSelectVideo = (video) => {
     console.log('onSelectVideo ', video);
-    selectVideo(video)
+    dispatch(selectVideo(video));
   };
 
   const renderList = videos.map((video) => {
@@ -22,6 +23,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, {
-  selectVideo,
-})(VideoList);
+export default connect(mapStateToProps)(VideoList);
