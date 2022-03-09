@@ -1,34 +1,45 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-import {fetchVideo} from '../actions';
+import { fetchVideo } from '../actions';
 
 class SearchBar extends React.Component {
-    
-    render() {
-        const {term} = this.props;
-        return(
-            <div className="search-bar ui segement">
-                <form onSubmit={} className="ui form">
-                    <div className="field">
-                        <label>Video Search</label>
-                        <input 
-                            type="text"
-                            value={term}
-                            onChange={}
-                        />
-                    </div>
-                </form>
-            </div>
-        )
-    }
-}
+  constructor(props) {
+    super(props);
+    this.state = {
+      term: '',
+    };
+  }
 
-const mapStateToProps = state => {
-    return {  };
+  onSubmit = (event) => {
+    event.preventDefault();
+
+    const { fetchVideo } = this.props;
+    const { term } = this.state;
+    console.log('term', term);
+    fetchVideo(term);
   };
 
-  export default connect(
-    mapStateToProps,
-    {  }
-  )(SearchBar);
+  onValueChange = (event) => {
+    const value = event.target.value;
+    this.setState({ term: value });
+  };
+
+  render() {
+    const { term } = this.state;
+    return (
+      <div className="search-bar ui segement">
+        <form onSubmit={this.onSubmit} className="ui form">
+          <div className="field">
+            <label>Video Search</label>
+            <input type="text" value={term} onChange={this.onValueChange} />
+          </div>
+        </form>
+      </div>
+    );
+  }
+}
+
+export default connect(null, {
+  fetchVideo,
+})(SearchBar);
